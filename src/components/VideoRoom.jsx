@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import VideoPlayer from "./VideoPlayer";
+import { userContext } from "./Context";
 
 const APP_ID = "eda4b076ae714a89a420adbfae0167fa";
 const TOKEN =
@@ -61,7 +62,9 @@ const VideoRoom = () => {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2,200px)" }}>
         {users.map((user) => (
-          <VideoPlayer key={user.uid} user={user} />
+          <userContext.Provider value={user}>
+            <VideoPlayer key={user.uid} user={user} />
+          </userContext.Provider>
         ))}
       </div>
     </div>
