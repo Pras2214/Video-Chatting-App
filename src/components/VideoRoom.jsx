@@ -64,8 +64,8 @@ const VideoRoom = () => {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2,200px)" }}>
         {users.map((user) => (
           <>
-            <VideoPlayer key={user.uid} user={user} />
-            {updateUser(user)}
+            <VideoPlayer key={user.uid} user={user}/>
+            {updateUser(user,client)}
           </>
         ))}
       </div>

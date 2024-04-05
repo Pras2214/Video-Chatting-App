@@ -4,9 +4,11 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [client, setClient] = useState();
 
-  const updateUser = (newUserData) => {
+  const updateUser = (newUserData,newClient) => {
     setUser(newUserData);
+    setClient(newClient);
   };
 
   return (

@@ -7,18 +7,28 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import UserContext from "./Context";
 
 const Controls = () => {
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const mute = async (mediaType) => {
     if (mediaType === "video") {
-      await user.user.videoTrack.setEnabled(!trackState.video);
+      await user.videoTrack.setEnabled(!trackState.video);
       setTrackState((prevState) => {
         return { ...prevState, video: !prevState.video };
       });
     }
+    if (mediaType === "audio") {
+      await user.audioTrack.setEnabled(!trackState.audio);
+      setTrackState((prevState) => {
+        return { ...prevState, audio: !prevState.audio };
+      });
+    }
   };
-  const toggleAudio = (user) => {};
-  const leave = () => {};
+  const leave = () => {
+    // await user.user.leave();
+    // user.user.removeAllListeners();
+    user.videoTrack.close();
+    user.audioTrack.close();
+  };
   return (
     <div>
       <button onClick={() => mute("video")}>
