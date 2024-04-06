@@ -5,7 +5,7 @@ import { UserContext } from "./Context";
 
 const APP_ID = "eda4b076ae714a89a420adbfae0167fa";
 const TOKEN =
-  "007eJxTYOD6vtKZb9fufvVtN4q8M+1Eqs6VJIeprKw/80/t4JLLoicVGFJTEk2SDMzNElPNDU0SLSwTTYwMElOS0hJTDQzNzNMS377jT2sIZGSQWa7JwAiFID4LQ25iZh4DAwB8QCAx";
+  "007eJxTYPCIV30uqrz28mKjiZpcR7lVxMy+Ln5y6OQKpXVfaxJe/NihwJCakmiSZGBulphqbmiSaGGZaGJkkJiSlJaYamBoZp6WmOUpmNYQyMhwbJsNKyMDBIL4LAy5iZl5DAwAY78gFQ==";
 const CHANNEL = "main";
 
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -14,6 +14,10 @@ const VideoRoom = () => {
   const [users, setUsers] = useState([]);
   const [localTracks, setLocalTracks] = useState([]);
   const { user, updateUser } = useContext(UserContext);
+  const usersObj = {
+    users: users,
+    setUsers,
+  };
   const handleUserJoined = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
 
@@ -64,8 +68,8 @@ const VideoRoom = () => {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2,200px)" }}>
         {users.map((user) => (
           <>
-            <VideoPlayer key={user.uid} user={user}/>
-            {updateUser(user,client)}
+            <VideoPlayer key={user.uid} user={user} />
+            {updateUser(user, client, usersObj)}
           </>
         ))}
       </div>

@@ -7,7 +7,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import UserContext from "./Context";
 
 const Controls = () => {
-  const {user} = useContext(UserContext);
+  const { user, client, usersObj } = useContext(UserContext);
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const mute = async (mediaType) => {
     if (mediaType === "video") {
@@ -23,11 +23,17 @@ const Controls = () => {
       });
     }
   };
-  const leave = () => {
-    // await user.user.leave();
-    // user.user.removeAllListeners();
-    user.videoTrack.close();
+  const leave = async () => {
+    await client.leave();
+    client.removeAllListeners();
     user.audioTrack.close();
+    user.videoTrack.close();
+    usersObj.setUsers(
+      usersObj.users.filter((u) => {
+        u.uid !== user.uid;
+      })
+    );
+    
   };
   return (
     <div>

@@ -1,19 +1,16 @@
-import React, { useState, useContext } from "react";
-import { UserProvider } from "./components/Context";
-import VideoRoom from "./components/VideoRoom";
-import Controls from "./components/Controls";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Lobby from "./components/Lobby";
 import "./App.css";
 
 function App() {
-  const [joined, setJoined] = useState(false);
   return (
     <>
-      <UserProvider>
-        <h1>Video Call</h1>
-        {!joined && <button onClick={() => setJoined(true)}>Join Room</button>}
-        {joined && <Controls />}
-        {joined && <VideoRoom />}
-      </UserProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" Component={Lobby}/>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
