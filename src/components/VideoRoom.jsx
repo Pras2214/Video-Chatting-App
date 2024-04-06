@@ -64,8 +64,8 @@ const VideoRoom = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2,200px)" }}>
+    <div style={{ display: "flex", justifyContent: "center"}}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,200px)", gap: "50px"  }}>
         {users.map((user) => (
           <>
             <VideoPlayer key={user.uid} user={user} />

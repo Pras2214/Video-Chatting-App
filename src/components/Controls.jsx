@@ -39,7 +39,6 @@ const Controls = () => {
     );
     joinedObj.setJoined(false)
     navigate("/")
-    console.log("home");
   };
   return (
     <div>
