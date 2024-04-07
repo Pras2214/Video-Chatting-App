@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from "react";
 
-const VideoPlayer = ({ user }) => {
+const VideoPlayer = ({ user,users}) => {
   const ref = useRef();
 
   useEffect(() => {
-    console.log(user.uid);
     user.videoTrack.play(ref.current);
   }, []);
 
   return (
     <div>
-      Uid: {user.uid}
+      {/* Uid: {user.uid} */}
+      {/* Name: {name} */}
+      {console.log(users)}
       <div ref={ref} style={{ width: "200px", height: "200px" }}></div>
     </div>
   );
