@@ -9,9 +9,10 @@ const VideoPlayer = ({ user,users}) => {
 
   return (
     <div>
+      {/* Yet to add the functionality to display all the users' names */}
       {/* Uid: {user.uid} */}
       {/* Name: {name} */}
-      {console.log(users)}
+      {/* {console.log(users)} */}
       <div ref={ref} style={{ width: "200px", height: "200px" }}></div>
     </div>
   );
