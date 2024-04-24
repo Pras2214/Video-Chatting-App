@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Lobby from "./components/Lobby";
+import HomePage from "./components/HomePage";
+import Login from "./components/Login";
+import Signup from "./components/Signup"
+import Lobby from "./components/Lobby"
 import "./App.css";
 
 function App() {
@@ -8,7 +11,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" Component={Lobby}/>
+          <Route path="/" Component={HomePage}/>
+          <Route path="/login" Component={Login}/>
+          <Route path="/signup" Component={Signup}/>
+          <Route path="/lobby" Component={Lobby}/>
         </Routes>
       </BrowserRouter>
     </>

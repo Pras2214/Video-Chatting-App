@@ -38,10 +38,10 @@ const Controls = () => {
       })
     );
     joinedObj.setJoined(false)
-    navigate("/")
+    navigate("/lobby")
   };
   return (
-    <div>
+    <div style={{display:"flex", flexDirection:"row", gap:"2rem", justifyContent:"center"}}>
       <button onClick={() => mute("video")}>
         {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
       </button>

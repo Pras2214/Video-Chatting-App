@@ -8,7 +8,6 @@ export let joinedObj = {};
 const Lobby = () => {
   const [joined, setJoined] = useState(false);
   const [userName, setUserName] = useState("");
-  const [channelName, setChannelName] = useState("");
   joinedObj = {
     joined,
     setJoined,

@@ -1,12 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const {
-  RtcTokenBuilder,
-  RtmTokenBuilder,
-  RtcRole,
-  RtmRole,
-} = require("agora-access-token");
+const mongoose = require("mongoose");
+
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/mydatabase");
+const db = mongoose.connection;
+
+// Check if connection is successful
+// db.once("open", () => {
+//   console.log("Connected to MongoDB database");
+// });
+
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
@@ -17,36 +23,69 @@ app.use((req, res, next) => {
 });
 // Rtc Examples
 const APP_ID = "eda4b076ae714a89a420adbfae0167fa";
-const APP_CERIFICATE = "e84437506bc148c588e815fc5eab8d62";
 const CHANNEL = "main";
-const uid = 2882341273;
-const role = RtcRole.PUBLISHER;
+const TOKEN =
+  "007eJxTYFDnNNy/uD+sUU/cq3/F7zvL0lwYTyludOLIfmUx/fv+eVsUGFJTEk2SDMzNElPNDU0SLSwTTYwMElOS0hJTDQzNzNMS93FopjUEMjJ83WDHysgAgSA+C0NuYmYeAwMAJkkfaA==";
 
-// IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+  
+  const formDataSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String,
+  });
 
-// Build token with uid
-const TOKEN = RtcTokenBuilder.buildTokenWithUid(
-  APP_ID,
-  APP_CERIFICATE,
-  CHANNEL,
-  uid,
-  role
-);
-console.log("Token With Integer Number Uid: " + TOKEN);
+  const FormDataModel = mongoose.model("FormData", formDataSchema);
+  
+  app.post("/signupData", async (req, res) => {
+    try {
+      const newFormData = new FormDataModel(req.body);
+      
+      // Save the document to the database
+      await newFormData.save();
+      
+      console.log("Form data saved successfully");
+      
+      // Respond with a success message
+      res.status(200).send("Form data saved successfully");
+    } catch (error) {
+      // Handle errors
+      console.error("Error saving form data:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
 
-// Build token with user account
-// const tokenB = RtcTokenBuilder.buildTokenWithAccount(appID, appCertificate, channelName, account, role, privilegeExpiredTs);
-// console.log("Token With UserAccount: " + tokenB);
-// Readme
+let mongoDBData,
+userConfirmed = false;
+app.post("/loginData", async (req, res) => {
+  try {
+    const formData = req.body;
+    const { username, password } = formData;
+    mongoDBData = await FormDataModel.findOne({ username });
+    if (
+      mongoDBData &&
+      mongoDBData.username === username &&
+      mongoDBData.password === password
+    ) {
+      userConfirmed = true;
+    } else {
+      userConfirmed = false;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 app.get("/data", (req, res) => {
   const dataToSend = {
     TOKEN,
     APP_ID,
     CHANNEL,
-    uid,
   };
   res.json(dataToSend);
+});
+
+app.get("/sendConfirmation", (req, res) => {
+  res.json(userConfirmed);
 });
 
 app.listen(3000, () => {
