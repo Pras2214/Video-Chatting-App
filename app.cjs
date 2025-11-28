@@ -6,12 +6,18 @@ const mongoose = require("mongoose");
 
 // Connect to MongoDB
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase");
-const db = mongoose.connection;
-
-db.once("open", () => {
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase";
+mongoose.connect(mongoURI, {
+  ssl: true,
+  tls: true,
+  tlsAllowInvalidCertificates: true, // Sometimes needed for specific cloud environments
+}).then(() => {
   console.log("Connected to MongoDB database");
+}).catch((err) => {
+  console.error("MongoDB connection error:", err);
 });
+
+const db = mongoose.connection;
 
 app.use(bodyParser.json());
 
