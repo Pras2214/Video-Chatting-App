@@ -3,6 +3,8 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import VideoPlayer from "./VideoPlayer";
 import { UserContext } from "./Context";
 
+import { BACKEND_URL } from "../config";
+
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 const VideoRoom = ({ userName }) => {
@@ -20,7 +22,7 @@ const VideoRoom = ({ userName }) => {
   }, []);
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/data");
+      const response = await fetch(`${BACKEND_URL}/data`);
       const dat = await response.json();
       setData(dat);
     } catch (error) {
@@ -51,7 +53,7 @@ const VideoRoom = ({ userName }) => {
         // Save local UID to DB
         if (userName) {
           try {
-            await fetch("http://localhost:3000/updateUid", {
+            await fetch(`${BACKEND_URL}/updateUid`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ username: userName, uid: joinedUid.toString() }),
@@ -109,7 +111,7 @@ const VideoRoom = ({ userName }) => {
     if (mediaType === "video") {
       let remoteName = "User " + user.uid;
       try {
-        const res = await fetch(`http://localhost:3000/getUserByUid?uid=${user.uid}`);
+        const res = await fetch(`${BACKEND_URL}/getUserByUid?uid=${user.uid}`);
         if (res.ok) {
           const uData = await res.json();
           if (uData.username) remoteName = uData.username;

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import "../Login.css"; // Import CSS file for styling
 
+import { BACKEND_URL } from "../config";
+
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -11,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      fetch("http://localhost:3000/loginData", {
+      fetch(`${BACKEND_URL}/loginData`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +28,7 @@ const Login = () => {
     let confirmedUsername = "";
 
     try {
-      const response = await fetch("http://localhost:3000/sendConfirmation");
+      const response = await fetch(`${BACKEND_URL}/sendConfirmation`);
       const data = await response.json();
       userConfirmed = data.userConfirmed;
       confirmedUsername = data.username;

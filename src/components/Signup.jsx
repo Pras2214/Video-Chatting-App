@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import "../Signup.css"; // Import CSS file for styling
 
+import { BACKEND_URL } from "../config";
+
 const Signup = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -21,7 +23,7 @@ const Signup = () => {
 
 
     try {
-      fetch("http://localhost:3000/signupData", {
+      fetch(`${BACKEND_URL}/signupData`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

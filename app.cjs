@@ -5,7 +5,8 @@ const app = express();
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/mydatabase");
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase");
 const db = mongoose.connection;
 
 db.once("open", () => {
@@ -15,7 +16,8 @@ db.once("open", () => {
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -118,6 +120,7 @@ app.get("/sendConfirmation", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Listening to the port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Listening to the port ${PORT}`);
 });
