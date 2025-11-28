@@ -4,71 +4,45 @@ import "../Signup.css"; // Import CSS file for styling
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({});
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  //   const saveSignupData=async ()=>{
-  //         try {
-  //           const response = await fetch("http://localhost:3000/signupData", {
-  //             method: "POST",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify(formData),
-  //           });
-  //           if (!response.ok) {
-  //             throw new Error("Failed to save signup data");
-  //           }
-  //           console.log("Signup data saved successfully");
-  //         } catch (error) {
-  //           console.error("Error saving signup data:", error.message);
-  //         }
-  //       };
-
-  //   }
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = {
-    username,
-    email,
-    password,
-  };
+    const formData = {
+      username,
+      email,
+      password,
+    };
 
 
-  try {
-    fetch("http://localhost:3000/signupData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      fetch("http://localhost:3000/signupData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    console.log("Signup data saved successfully");
-
-    // Here you can add your logic for user registration
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-    } else {
-      // Successful registration, you can proceed with further actions like API call
-      navigate("/Lobby");
-      setError("");
-      // Reset form fields
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+      } else {
+        navigate("/lobby", { state: { username: username } });
+        setError("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    } catch (error) {
+      console.error("Error saving signup data:", error.message);
     }
-  } catch (error) {
-    console.error("Error saving signup data:", error.message);
-  }
-};
+  };
 
   return (
     <div className="signup-container">
@@ -116,7 +90,7 @@ const Signup = () => {
         </div>
         {error && <div className="error">{error}</div>}
         <button type="submit">Sign Up</button>
-        <p>Already have an account? <a style={{cursor:"pointer"}} onClick={()=>{navigate("/login")}}>Log In</a></p>
+        <p>Already have an account? <a style={{ cursor: "pointer" }} onClick={() => { navigate("/login") }}>Log In</a></p>
       </form>
     </div>
   );

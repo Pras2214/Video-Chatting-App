@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
@@ -33,22 +33,20 @@ const Controls = () => {
     user.audioTrack.close();
     user.videoTrack.close();
     usersObj.setUsers(
-      usersObj.users.filter((u) => {
-        u.uid !== user.uid;
-      })
+      usersObj.users.filter((u) => u.uid !== user.uid)
     );
     joinedObj.setJoined(false)
     navigate("/lobby")
   };
   return (
-    <div style={{display:"flex", flexDirection:"row", gap:"2rem", justifyContent:"center"}}>
+    <div style={{ display: "flex", flexDirection: "row", gap: "2rem", justifyContent: "center" }}>
       <button onClick={() => mute("video")}>
         {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
       </button>
       <button onClick={() => mute("audio")}>
         {trackState.audio ? <MicIcon /> : <MicOffIcon />}
       </button>
-      <button onClick={leave} style={{background:"red"}}>
+      <button onClick={leave} style={{ background: "red" }}>
         <ExitToAppIcon></ExitToAppIcon>Leave
       </button>
     </div>

@@ -1,12 +1,12 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
-// import Login from "./Login";
+
 import "../HomePage.css";
 
 export let joinedObj = {};
 
 const HomePage = () => {
-    const navigate=useNavigate()
+  const navigate = useNavigate()
   const Login = () => {
     navigate("/Login");
   };

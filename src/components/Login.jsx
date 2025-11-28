@@ -10,7 +10,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can add your logic for authentication
     try {
       fetch("http://localhost:3000/loginData", {
         method: "POST",
@@ -19,29 +18,26 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
-      console.log("Login data sent successfully");
-
-      // Here you can add your logic for user registration
     } catch (error) {
       console.error("Error sending login data:", error.message);
     }
 
     let userConfirmed = false;
+    let confirmedUsername = "";
+
     try {
       const response = await fetch("http://localhost:3000/sendConfirmation");
-      userConfirmed = await response.json();
+      const data = await response.json();
+      userConfirmed = data.userConfirmed;
+      confirmedUsername = data.username;
     } catch (error) {
       console.error(error);
     }
 
     if (userConfirmed) {
-      // Successful login, redirect to dashboard or home page
-      // console.log("Login successful");
-      navigate("/lobby");
+      navigate("/lobby", { state: { username: confirmedUsername } });
       setError("");
     } else {
-      // Failed login, display error message
       setError("Invalid username or password");
     }
   };
@@ -72,7 +68,7 @@ const Login = () => {
         </div>
         {error && <div className="error">{error}</div>}
         <button type="submit">Login</button>
-        <p>Do not have an account? <a style={{cursor:"pointer"}}onClick={()=>{navigate("/signup")}}>Sign Up</a></p>
+        <p>Do not have an account? <a style={{ cursor: "pointer" }} onClick={() => { navigate("/signup") }}>Sign Up</a></p>
       </form>
     </div>
   );
